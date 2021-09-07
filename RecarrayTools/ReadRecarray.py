@@ -6,15 +6,20 @@ def ReadRecarray(Fname,dtype,Progress=False):
 	'''
 	Reads binary file into np.recarray object
 	
-	Args:
-		Fname:	Full path and file name of binary file to be read.
-		dtype:	list of data types (and optionally shapes) stored in Fname.
-				e.g.:
-					dtype = [('Date','int32'),('ut','float32'),('x','float64',(10,))]
-		Progress: Display a progress bar.
+	Inputs
+	======
+	Fname : str
+		Full path and file name of binary file to be read.
+	dtype : list
+		list of data types (and optionally shapes) stored in Fname.
+			e.g.:
+				dtype = [('Date','int32'),('ut','float32'),('x','float64',(10,))]
+	Progress : bool
+		Display a progress bar.
 		
-	Returns:
-		np.recarray object
+	Returns
+	=======
+	data : numpy.recarray object
 	
 	'''
 	#obtain file size

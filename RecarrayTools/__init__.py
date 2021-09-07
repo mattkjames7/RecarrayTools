@@ -6,4 +6,3 @@ from .ReduceRecarray import ReduceRecarray
 from .InterpRecarrayFields import InterpRecarrayFields
 from .SaveRecarray import SaveRecarray
 from .AppendFields import AppendFields
-from .AssignToRecarray import AssignToRecarray

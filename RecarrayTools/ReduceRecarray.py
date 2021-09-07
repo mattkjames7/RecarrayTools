@@ -5,12 +5,17 @@ def ReduceRecarray(data,fields):
 	This routine will reduce the number of fields stored in a 
 	numpy.recarray.
 	
-	Inputs:
-		data: Original numpy.recarray
-		fields: list of field names to preserve
+	Inputs
+	======
+	data : numpy.recarray
+		Original numpy.recarray
+	fields : list
+		List of field names to preserve
 		
 	Returns
-		numpy.recarray containing on the fields listed in 'fields'.
+	=======
+	out : numpy.recarray
+		New numpy.recarray containing on the fields listed in 'fields'.
 	'''
 	
 	dtype = []

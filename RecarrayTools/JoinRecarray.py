@@ -1,23 +1,28 @@
 import numpy as np
 
-def JoinRecarray(a1,a2):
+def JoinRecarray(a0,a1):
 	'''
 	Simple routine to append two numpy.recarrays.
 	
-	Inputs:
-		a1: numpy.recarray
-		a2: numpy.recarray - must have same dtypes as a1!
+	Inputs
+	======
+	a0 : numpy.recarray
+		First recarray object.
+	a1 : numpy.recarray
+		Second recarray object (must have same dtypes as a1!).
 		
-	Returns:
-		numpy.recarray where data from a1 is at the beginning and a2 at
+	Returns
+	=======
+	out : numpy.recarray 
+		New numpy.recarray with data from a0 at the beginning and a1 at
 		the end.
 	'''
 	dt = a1.dtype
+	n0 = np.size(a0)
 	n1 = np.size(a1)
-	n2 = np.size(a2)
 	
-	out = np.recarray(n1+n2,dtype=dt)
-	out[0:n1] = a1
-	out[n1:n1+n2] = a2
+	out = np.recarray(n0+n1,dtype=dt)
+	out[0:n0] = a0
+	out[n0:n0+n1] = a1
 	
 	return out

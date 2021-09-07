@@ -7,17 +7,23 @@ def _InterpGaps(x,y,newx,Spline=True):
 	This function will look for gaps in data and try to interpolate 
 	between them onto a new x-axis, preserving the orignal gaps.
 	
-	Inputs:
-		x: monotonically increasing array (e.g. time).
-		y: array of data corresponding to x, where bad data are marked 
-			with NaN.
-		newx: New x array to interpolate onto where possible.
-		Spline: Boolean to try and use splint interpolation where
-			possible.
+	Inputs
+	======
+	x : float
+		Monotonically increasing array (e.g. time).
+	y : float
+		Array of data corresponding to x, where bad data are marked with 
+		NaN.
+	newx : float
+		New x array to interpolate onto where possible.
+	Spline : bool
+		Boolean to try and use splint interpolation where possible.
 			
-	Returns:
-		newy: new interpolated data product to match newx, preserving 
-			any gaps in original data.
+	Returns
+	=======
+	newy : float
+		New interpolated data product to match newx, preserving any gaps 
+		in original data.
 	
 	'''
 	

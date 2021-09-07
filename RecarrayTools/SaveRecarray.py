@@ -6,11 +6,14 @@ def SaveRecarray(Arr,Fname,Progress=False):
 	Thie function will save the data from a numpy.recarray to a binary
 	file.
 	
-	Inputs:
-		Arr: numpy.recarray to save
-		Fname: string containing the path and file name of the resulting
-			binary file.
-		Progress: Display a progress bar.
+	Inputs
+	======
+	Arr : numpy.recarray
+		Data to be saved.
+	Fname : str
+		Full path and file name of the resulting binary file.
+	Progress : bool
+		Display a progress bar.
 	'''
 	#get the size of the array in bytes
 	tbytes = Arr.nbytes + 4

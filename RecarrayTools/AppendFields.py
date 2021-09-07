@@ -7,14 +7,20 @@ def AppendFields(indata,dtypes,newdata):
 	the original, but it works. The lengths of indata and newdata must 
 	be equal, otherwise strange things may happen.
 	
-	Inputs:
-		indata: original numpy.recarray
-		dtypes: List of tuples with dtypes of new data to be added, e.g.
+	Inputs
+	======
+	indata : numpy.recarray
+		Original numpy.recarray
+	dtypes : list
+		List of tuples with dtypes of new data to be added, e.g.
 				[('a','float32'),('b','int32'),('c','bool8')]
-		newdata: List or tuple of new data fields e.g. (a,b,c) or [a,b,c]
+	newdata : list|tuple
+		List or tuple of new data arrays e.g. (a,b,c) or [a,b,c]
 		
-	Returns:
-		numpy.recarray object containing the fields of the original 
+	Returns
+	=======
+	outdata : numpy.recarray
+		numpy.recarray object containing both the fields of the original 
 		object and the new data.
 	
 	'''

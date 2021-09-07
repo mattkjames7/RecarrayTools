@@ -7,15 +7,22 @@ def InterpRecarrayFields(a,b,RefField='ut',InterpFields=[]):
 	numpy.recarray a, such that they match a common reference field
 	RefField (by default this is set to 'ut').
 	
-	Inputs:
-		a: original numpy.recarray
-		b: numpy.recarray to be interpolated onto.
-		RefField: Reference field for interpolation, must be 
-			monotonically increasing.
-		InterpFields: List of field names to interpolate, must be 
-			present in both a and b.
+	Inputs
+	======
+	a : numpy.recarray
+		Original numpy.recarray
+	b : numpy.recarray
+		New numpy.recarray to be interpolated onto.
+	RefField : str
+		Reference field name for interpolation, must be monotonically 
+		increasing.
+	InterpFields : list
+		List of field names to interpolate, must be present in both a 
+		and b.
 			
-	Returns:
+	Returns
+	=======
+	b : numpy.recarray 
 		numpy.recarray with interpolated fields.
 	'''
 	
