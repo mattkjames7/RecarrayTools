@@ -141,9 +141,10 @@ def _StoreDtype(f,dtype):
 		s = dtype[i][1]
 		if s[0] in ['>','<','|']:
 			end[i] = s[0]
-			s = s[:]
+			s = s[1:]
 		else:
 			end[i] = bo
+
 		#work out the one letter code and number of bytes
 		#default to object with 0 length
 		if s[0] in ['U','S','a']:
