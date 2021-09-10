@@ -134,9 +134,11 @@ def _StoreDtype(f,dtype):
 	end = np.zeros(ndt,dtype='U1') # endianness
 	dtc = np.zeros(ndt,dtype='U1') # dtype code
 	dln = np.zeros(ndt,dtype='int16')	# dtype number of bytes
-	dnm = np.zeros(ndt,dtype='O')
+	dnm = np.zeros(ndt,dtype='O') # name of each field
+	dsh = np.zeros(ndt,dtype='O') # list of dimensions
 	for i in range(0,ndt):
-		dnm[i],s = dtype[i]
+		dnm[i] = dtype[i][0]
+		s = dtype[i][1]
 		if s[0] in ['>','<','|']:
 			end[i] = s[0]
 			s = s[:]
@@ -155,6 +157,12 @@ def _StoreDtype(f,dtype):
 			#dtc[i],dln[i] = dtypes.get(s,('O',0))
 			dtc[i] = A[0]
 			dln[i] = A[1]
+	
+		#get the shape
+		if len(dtype[i]) == 3:
+			dsh[i] = dtype[i][2]
+		else:
+			dsh[i] = None
 	
 	
 	#first bit should be uint32 equal to 0 - this tells us either that
@@ -176,6 +184,17 @@ def _StoreDtype(f,dtype):
 	end.tofile(f)
 	dtc.tofile(f)
 	dln.tofile(f)
+	
+	#save the shapes
+	for i in range(0,ndt):
+		if dsh[i] is None:
+			np.int32(0).tofile(f)
+		else:
+			nsh = np.int32(len(dsh[i]))
+			sh = np.int32(dsh[i])
+			nsh.tofile(f)
+			sh.tofile(f)
+	
 	#now the names
 	for i in range(0,ndt):
 		ld = np.uint32(len(dnm[i]))

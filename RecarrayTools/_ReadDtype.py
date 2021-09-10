@@ -29,6 +29,16 @@ def _ReadDtype(f):
 	dtc = np.fromfile(f,dtype='U1',count=ndt)
 	dln = np.fromfile(f,dtype='uint16',count=ndt)
 
+	#read the shape
+	dsh = np.zeros(ndt,dtype='O')
+	for i in range(0,ndt):
+		nsh = np.fromfile(f,dtype='int32',count=1)[0]
+		if nsh == 0:
+			dsh[i] = None
+		else:
+			sh = tuple(np.fromfile(f,dtype='int32',count=nsh))
+			dsh[i] = sh
+			
 	#read the names
 	dnm = np.zeros(ndt,dtype='O')
 	for i in range(0,ndt):
@@ -47,6 +57,9 @@ def _ReadDtype(f):
 				dt = '{:s}'.format(dtc[i],dln[i])
 			if end[i] in ['<','>']:
 				dt = '{:s}'.format(end[i]) + dt
-		dtype.append((dnm[i],dt))
+		if dsh[i] is None:
+			dtype.append((dnm[i],dt))
+		else:
+			dtype.append((dnm[i],dt,dsh[i]))
 
 	return dtype
