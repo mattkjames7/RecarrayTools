@@ -76,7 +76,6 @@ def ReadRecarray(Fname,dtype=None,Progress=False,GetSize=False):
 			for j in range(0,Ns):
 				Ne *= s[j]
 				shape += (s[j],)
-		print(dtype[i])
 
 		#read the required number of elements from the file and reshape if needed
 		if dtype[i][1] in objnames:
@@ -87,7 +86,7 @@ def ReadRecarray(Fname,dtype=None,Progress=False,GetSize=False):
 			else:
 				tmp = np.fromfile(f,dtype=dtype[i][1],count=Ne)	
 				data[dtype[i][0]] = tmp.reshape(shape)
-		print(data[dtype[i][0]])	
+
 		if Progress:
 			nbytes += data[dtype[i][0]].nbytes
 			pb.Display(nbytes)
