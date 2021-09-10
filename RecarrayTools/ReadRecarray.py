@@ -1,8 +1,14 @@
 import numpy as np
 from .ProgressBar import ProgressBar
 import os
+from ._ReadDtype import _ReadDtype
+import pickle
 
-def ReadRecarray(Fname,dtype,Progress=False):
+#list the dtype names which will be treated as objects
+objnames = ['timedelta64','Datetime64','datetime64','object','object_',
+			'object0','O','Object0','M','M8']
+			
+def ReadRecarray(Fname,dtype=None,Progress=False,GetSize=False):
 	'''
 	Reads binary file into np.recarray object
 	
@@ -16,6 +22,8 @@ def ReadRecarray(Fname,dtype,Progress=False):
 				dtype = [('Date','int32'),('ut','float32'),('x','float64',(10,))]
 	Progress : bool
 		Display a progress bar.
+	GetSize : bool
+		if True, then only the number of records is returned.
 		
 	Returns
 	=======
@@ -27,7 +35,21 @@ def ReadRecarray(Fname,dtype,Progress=False):
 	
 	#open the file and count the number of records
 	f = open(Fname,'rb')
-	N = np.fromfile(f,dtype='int32',count=1)
+	N = np.fromfile(f,dtype='int32',count=1)[0]
+	if N == 0 and tbytes > 4:
+		#dtype likely to be stored inside the file
+		dtype = _ReadDtype(f)
+		#get the number of records again
+		N = np.fromfile(f,dtype='int32',count=1)[0]
+	elif N != 0 and dtype is None:
+		#no dtype in file and no dtype supplied
+		print('No dtype in file, please set "dtype" keyword')
+		return None
+		
+
+	if GetSize:
+		f.close()
+		return N
 
 	#init progress bar
 	if Progress:
@@ -45,22 +67,27 @@ def ReadRecarray(Fname,dtype,Progress=False):
 		#calculate the shape tuple
 		if len(dtype[i]) == 2:
 			Ne = np.array(N)
-			shape = (Ne[0],)
+			shape = (Ne,)
 		else:
 			s = dtype[i][2] 
 			Ns = len(s)
 			Ne = np.array(N)
-			shape = (N[0],)
+			shape = (N,)
 			for j in range(0,Ns):
 				Ne *= s[j]
 				shape += (s[j],)
-				
+		print(dtype[i])
+
 		#read the required number of elements from the file and reshape if needed
-		if len(shape) == 1:
-			data[dtype[i][0]] = np.fromfile(f,dtype=dtype[i][1],count=Ne[0])
+		if dtype[i][1] in objnames:
+			data[dtype[i][0]] = pickle.load(f)
 		else:
-			tmp = np.fromfile(f,dtype=dtype[i][1],count=Ne[0])	
-			data[dtype[i][0]] = tmp.reshape(shape)
+			if len(shape) == 1:
+				data[dtype[i][0]] = np.fromfile(f,dtype=dtype[i][1],count=Ne)
+			else:
+				tmp = np.fromfile(f,dtype=dtype[i][1],count=Ne)	
+				data[dtype[i][0]] = tmp.reshape(shape)
+		print(data[dtype[i][0]])	
 		if Progress:
 			nbytes += data[dtype[i][0]].nbytes
 			pb.Display(nbytes)
